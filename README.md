@@ -45,6 +45,13 @@ streamlit run ui/dashboard.py
 ```
 
 ### New laptop setup (after git clone)
+Clone from the correct repo:
+```powershell
+git clone https://github.com/jc1195/TradingBot.git
+cd TradingBot
+```
+
+Then run setup:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -62,6 +69,41 @@ Optional CUDA check (Torch):
 Notes:
 - GTX 1050 Ti Max-Q supports CUDA, but inference can be slower due to lower VRAM/throughput.
 - The same model names can still be used; if a model is too heavy for the laptop, inference latency increases and fallbacks may trigger.
+
+### Data migration vs fresh start
+By default, the new laptop starts mostly fresh because local runtime/data artifacts are intentionally git-ignored.
+
+What comes from GitHub:
+- Source code, scripts, configs, docs.
+- Adaptive logic/code paths and model code (same behavior/config capabilities).
+
+What does NOT come from GitHub by default:
+- SQLite runtime DB (for example `data/trading_bot.sqlite3`).
+- Adaptive runtime memory (for example `runtime/special_circumstances.json`).
+- Runtime snapshots/reports (`runtime/*.json`, `.pid`, local logs/caches).
+
+If you want continuity (technician exceptions/history/ML training context), copy these from old machine to new machine after clone:
+```powershell
+# while bot/dashboard are stopped
+Copy-Item "<old>\TradingBot\data\trading_bot.sqlite3" ".\data\trading_bot.sqlite3" -Force
+Copy-Item "<old>\TradingBot\runtime\special_circumstances.json" ".\runtime\special_circumstances.json" -Force
+```
+
+Recommended:
+- Start fresh first in paper mode to validate environment.
+- Then copy DB/runtime files if you want to resume learned history.
+
+One-command migration helpers:
+```powershell
+# on old machine (creates zip under runtime/)
+./scripts/export_state.ps1
+
+# on new machine (while bot/dashboard are stopped)
+./scripts/import_state.ps1 -ArchivePath ".\runtime\state_export_YYYYMMDD_HHMMSS.zip"
+
+# optional: overwrite existing local state files
+./scripts/import_state.ps1 -ArchivePath ".\runtime\state_export_YYYYMMDD_HHMMSS.zip" -Overwrite
+```
 
 ### Optional split-terminal startup
 ```powershell
