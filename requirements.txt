@@ -1,0 +1,17 @@
+apscheduler==3.10.4
+fastapi==0.116.1
+loguru==0.7.3
+numpy==2.2.2
+pandas==2.2.3
+pydantic==2.10.6
+pydantic-settings==2.7.1
+PyYAML==6.0.2
+python-dotenv==1.0.1
+requests==2.32.3
+robin-stocks==3.4.0
+scikit-learn==1.6.1
+streamlit==1.42.0
+streamlit-autorefresh==1.0.1
+ta==0.11.0
+torch==2.7.0
+uvicorn==0.35.0

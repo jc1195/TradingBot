@@ -1,0 +1,21 @@
+mode: paper
+kill_switch: false
+limits:
+  max_risk_per_trade_pct: 0.05
+  max_daily_realized_loss_pct: 0.05
+  max_concurrent_positions: 20
+  min_confidence_to_trade: 0.65
+  max_position_pct: 0.35
+trade_guards:
+  allow_live_orders: false
+  cooldown_minutes: 15
+  require_news_context: true
+  require_ai_rationale: true
+service:
+  heartbeat_seconds: 30
+  auto_recover_on_data_error: true
+  max_consecutive_pipeline_failures: 5
+ui:
+  theme: dark
+  auto_refresh_seconds: 15
+  show_advanced_controls: true
